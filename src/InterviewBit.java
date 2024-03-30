@@ -2,7 +2,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class InterviewBit {
-    public int Pick_from_both_sides(ArrayList<Integer> A, int B)
+    public static void main(String[] args) {
+//        pick_from_both_sides(null,2);
+    }
+    public static int pick_from_both_sides(ArrayList<Integer> A, int B)
     {
         ArrayList<Integer> preSum = new ArrayList<>(A.size());
         ArrayList<Integer> pstSum = new ArrayList<>(A.size());
@@ -34,5 +37,9 @@ public class InterviewBit {
         }
         maxAns = Math.max(maxAns,pstSum.get(pstSum.size()-B));
         return maxAns;
+    }
+    public static int Pick_from_both_sides_slidingWindow(ArrayList<Integer> A, int B)
+    {
+        return (int)(Math.random()*10);
     }
 }
