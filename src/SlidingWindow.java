@@ -7,12 +7,33 @@ public class SlidingWindow
 //        System.out.println(maxWindowSum(new int[]{1,2,3,9,-9,9,3},3));
 //        System.out.println(firstNegNumInEveryWin(new int[]{2,3,-3,-5,-8,10,-9,-12,-13,14},3));
 //        System.out.println(countAnagram("forxxorfxdofr","for"));
+//        System.out.println(maxOfEverySubstring(new int[]{1,-2,3,-4,10,-11,1,0},3));
+        System.out.println(maxOfEverySubstringHeap(new int[]{1,-2,3,-4,10,-11,1,-13},3));
     }
 
-    public static ArrayList<Integer> maxOfEverySubstring(String p,int k)
+    public static ArrayList<Integer> maxOfEverySubstring(int[] arr,int B)
     {
-        return null;
+        ArrayList<Integer> ans = new ArrayList<>();
+        int i=0,j=i;
+        Queue<Integer> queue = new LinkedList<>();
+        while(j<arr.length)
+        {
+            while(!queue.isEmpty() && queue.peek() < arr[j]) queue.remove();
+            queue.add(arr[j]);
+            if((j-i+1)==B)
+            {
+                ans.add(queue.peek());
+                if(queue.peek()==arr[i])
+                {
+                    queue.remove();
+                }
+                i++;
+            }
+            j++;
+        }
+        return ans;
     }
+
 
     public static int maxWindowSum(int[] arr,int B)
     {
