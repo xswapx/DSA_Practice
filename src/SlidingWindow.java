@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.*;
 
 public class SlidingWindow
 {
@@ -9,7 +6,12 @@ public class SlidingWindow
     {
 //        System.out.println(maxWindowSum(new int[]{1,2,3,9,-9,9,3},3));
 //        System.out.println(firstNegNumInEveryWin(new int[]{2,3,-3,-5,-8,10,-9,-12,-13,14},3));
-//        System.out.println(countAnagram("forxxforxforxxxfor","for"));
+//        System.out.println(countAnagram("forxxorfxdofr","for"));
+    }
+
+    public static ArrayList<Integer> maxOfEverySubstring(String p,int k)
+    {
+        return null;
     }
 
     public static int maxWindowSum(int[] arr,int B)
@@ -62,40 +64,37 @@ public class SlidingWindow
         return ans;
     }
 
-//    TO BE WORKED................................
-//    public static int countAnagram(String s, String p)
-//    {
-//        int ans=0;
-//        HashMap<Character,Integer> map = new HashMap<>();
-//        int i=0,j=i;
-//        for(char ch : p.toCharArray())
-//        {
-//            map.put(ch,map.getOrDefault(ch,0)+1);
-//        }
-//        int count = map.size();
-//        while(j < s.length())
-//        {
-//            char ch = s.charAt(j);
-//            if(map.containsKey(ch))
-//            {
-//                map.put(ch,map.get(ch)-1);
-//                count = map.get(ch) == 0 ? --count : count;
-//            }
-//
-//            if((j-i+1)==p.length())
-//            {
-//                if(map.containsKey(ch))
-//                {
-//                    if(count==0) ans++;
-//                    i++;
-//                    if((j+1<s.length()) && map.containsKey(s.charAt(j + 1)) ) {
-//                        map.put(s.charAt(j + 1), map.getOrDefault(s.charAt(j + 1), 0) + 1);
-//                        count++;
-//                    }
-//                }
-//            }
-//            j++;
-//        }
-//        return ans;
-//    }
+    public static int countAnagram(String s, String p)
+    {
+        int ans=0;
+        HashMap<Character,Integer> map = new HashMap<>();
+        int i=0,j=i;
+        for(char ch : p.toCharArray())
+        {
+            map.put(ch,map.getOrDefault(ch,0)+1);
+        }
+        int count = map.size();
+        while(j < s.length())
+        {
+            char ch = s.charAt(j);
+            if(map.containsKey(ch))
+            {
+                map.put(ch,map.get(ch)-1);
+                count = (map.get(ch) == 0) ? --count : count;
+            }
+
+            if((j-i+1)==p.length())
+            {
+                if(count==0) ans++;
+                if(map.containsKey(s.charAt(i))) {
+                    map.put(s.charAt(i), map.get(s.charAt(i)) + 1);
+                    if(map.get(s.charAt(i)) == 1) count++;
+                }
+                i++;
+
+            }
+            j++;
+        }
+        return ans;
+    }
 }
