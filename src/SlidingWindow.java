@@ -4,10 +4,10 @@ public class SlidingWindow
 {
     public static void main(String[] args)
     {
-//        System.out.println(maxWindowSum(new int[]{1,2,3,9,-9,9,3},3));
-//        System.out.println(firstNegNumInEveryWin(new int[]{2,3,-3,-5,-8,10,-9,-12,-13,14},3));
-//        System.out.println(countAnagram("forxxorfxdofr","for"));
-//        System.out.println(maxOfEverySubstring(new int[]{1,-2,3,-4,10,-11,1,0},3));
+        System.out.println(maxWindowSum(new int[]{1,2,3,9,-9,9,3},3));
+        System.out.println(firstNegNumInEveryWin(new int[]{2,3,-3,-5,-8,10,-9,-12,-13,14},3));
+        System.out.println(countAnagram("forxxorfxdofr","for"));
+        System.out.println(maxOfEverySubstring(new int[]{1,-2,3,-4,10,-11,1,0},3));
     }
 
     public static ArrayList<Integer> maxOfEverySubstring(int[] arr,int B)
