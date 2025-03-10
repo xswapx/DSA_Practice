@@ -1,6 +1,5 @@
 package Graphs;
 
-import java.io.IOException;
 import java.util.*;
 
 class Pair {
@@ -38,7 +37,7 @@ class GraphsDSA {
         Stack<Integer> stack = new Stack<>();
         boolean[] vis = new boolean[N];
         int[] distance = new int[N];
-        ArrayList<ArrayList<Pair>> adj = createAdjacentList(edges,N);
+        ArrayList<ArrayList<Pair>> adj = createAdjacentListWithPair(edges,N);
         for (int i = 0; i < N; i++) {
             if (!vis[i]) {
                 topoSort(i, adj, vis, stack);
@@ -113,6 +112,32 @@ class GraphsDSA {
         return distance;
     }
 
+    public int[] bellmanFord(int V, int[][] edges, int src) {
+        int[] distance = new int[V];
+        for(int i=0;i<V;i++) distance[i] = (int)1e8;
+        distance[src] = 0;
+        for(int i=0;i<V-1;i++){
+            for(int[] edge : edges){
+                int sr = edge[0];
+                int dt = edge[1];
+                int wt = edge[2];
+                if(distance[sr] != 1e8 && distance[sr] + wt < distance[dt]){
+                    distance[dt] = distance[sr] + wt;
+                }
+            }
+        }
+        for(int[] edge : edges){
+            int sr = edge[0];
+            int dt = edge[1];
+            int wt = edge[2];
+            if(distance[sr] != 1e8 && distance[sr] + wt < distance[dt]){
+                return new int[]{-1};
+            }
+        }
+
+        return distance;
+    }
+
     private void topoSort(int node, ArrayList<ArrayList<Pair>> adj, boolean[] vis, Stack<Integer> st) {
         vis[node] = true;
         for (Pair pair : adj.get(node)) {
@@ -123,7 +148,7 @@ class GraphsDSA {
         st.add(node);
     }
 
-    private ArrayList<ArrayList<Pair>> createAdjacentList(int[][] edges,int N){
+    private ArrayList<ArrayList<Pair>> createAdjacentListWithPair(int[][] edges, int N){
         ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
         for (int i = 0; i < N; i++) {
             adj.add(new ArrayList<Pair>());
