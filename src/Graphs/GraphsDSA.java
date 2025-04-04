@@ -30,10 +30,36 @@ class GraphsDSA {
 //        for (int i = 0; i < n; i++) {
 //            System.out.print(dist[i] + " ");
 //        }
+//        int V = 5;
+//        ArrayList<ArrayList<ArrayList<Integer>>> adj = new ArrayList<ArrayList<ArrayList<Integer>>>();
+//        int[][] edges =  {{0, 1, 2}, {0, 2, 1}, {1, 2, 1}, {2, 3, 2}, {3, 4, 1}, {4, 2, 2}};
+//
+//        for (int i = 0; i < V; i++) {
+//            adj.add(new ArrayList<ArrayList<Integer>>());
+//        }
+//
+//        for (int i = 0; i < 6; i++) {
+//            int u = edges[i][0];
+//            int v = edges[i][1];
+//            int w = edges[i][2];
+//
+//            ArrayList<Integer> tmp1 = new ArrayList<Integer>();
+//            ArrayList<Integer> tmp2 = new ArrayList<Integer>();
+//            tmp1.add(v);
+//            tmp1.add(w);
+//
+//            tmp2.add(u);
+//            tmp2.add(w);
+//
+//            adj.get(u).add(tmp1);
+//            adj.get(v).add(tmp2);
+//        }
+//        System.out.println(primsAlgorithm(V,adj));
+
     }
 
 
-    public int[] shortestPathInDAG(int N, int M, int[][] edges) {
+    public int[] shortestPathInDAG(int N, int M, int[][] edges) { 
         Stack<Integer> stack = new Stack<>();
         boolean[] vis = new boolean[N];
         int[] distance = new int[N];
@@ -138,6 +164,75 @@ class GraphsDSA {
         return distance;
     }
 
+    public static int primsAlgorithm(int V,ArrayList<ArrayList<ArrayList<Integer>>> adj){
+        PriorityQueue<Pair> minHeap = new PriorityQueue<Pair>((a,b) -> a.weigth - b.weigth);
+        int sum = 0;
+        int[] vis = new int[V];
+        minHeap.add(new Pair(0,0));
+        while(!minHeap.isEmpty()){
+            int node = minHeap.peek().nodeValue;
+            int wt = minHeap.peek().weigth;
+            minHeap.remove();
+            if(vis[node] == 1) continue;
+            vis[node]=1;
+            sum = sum+wt;
+            for(List<Integer> pairs : adj.get(node)){
+                int n = pairs.get(0);
+                int w = pairs.get(1);
+                minHeap.add(new Pair(n,w));
+            }
+        }
+        return sum;
+    }
+    public static int kosaraju(int V, ArrayList<ArrayList<Integer>> adj){
+        Stack<Integer> stk = new Stack<>();
+        int[] vis = new int[V];
+        Arrays.fill(vis,0);
+        for(int i=0;i<V;i++){
+            if(vis[i] == 0){
+                dfs(i,adj,stk,vis);
+            }
+        }
+        //Reversal of Adjacency List
+        ArrayList<ArrayList<Integer>> reversedAdj = new ArrayList<>();
+        for(int i=0;i<V;i++){
+            reversedAdj.add(new ArrayList<Integer>());
+        }
+        for(int i=0;i<V;i++){
+            vis[i] = 0;
+            for(Integer x : adj.get(i)){
+                reversedAdj.get(x).add(i);
+            }
+        }
+        int scc = 0;
+        while (!stk.isEmpty()){
+            int node = stk.peek();
+            stk.pop();
+            if(vis[node] == 0){
+                dfs2(node,reversedAdj,vis);
+                scc++;
+            }
+        }
+        return scc;
+    }
+
+    public static void dfs(int node,ArrayList<ArrayList<Integer>> adj , Stack<Integer> stk,int vis[]){
+        vis[node] =1;
+        for(Integer i : adj.get(node)){
+            if(vis[i] == 0){
+                dfs(i,adj,stk,vis);
+            }
+        }
+        stk.push(node);
+    }
+
+    public static void dfs2(int node,ArrayList<ArrayList<Integer>> adj,int vis[]){
+        vis[node] = 1;
+        for(Integer it : adj.get(node)){
+            dfs2(it,adj,vis);
+        }
+    }
+
     private void topoSort(int node, ArrayList<ArrayList<Pair>> adj, boolean[] vis, Stack<Integer> st) {
         vis[node] = true;
         for (Pair pair : adj.get(node)) {
@@ -147,6 +242,7 @@ class GraphsDSA {
         }
         st.add(node);
     }
+
 
     private ArrayList<ArrayList<Pair>> createAdjacentListWithPair(int[][] edges, int N){
         ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
